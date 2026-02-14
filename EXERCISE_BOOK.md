@@ -430,136 +430,178 @@ Console.ReadLine();
 ---
 ---
 
-## EXERCISE 5 — LOOPS (CUMULATIVE)
-**Workbook:** Part 1B Section 5 | **Pages 25-26**
-**Concepts:** `for` loop (dynamic), `foreach` loop, `while` loop, `!=`
-**Cumulative from:** Ex1 (ReadLine, interpolation), Ex2 (string, int), Ex3 (int.Parse), Ex4 (arrays, for loop)
+## EXERCISE 5 — LOOPS
+**Workbook:** Tables 8 | **Pages 40-41**
+**Concepts:** `for` loop, `foreach` loop, `while` loop
+**Cumulative from:** Ex1 (WriteLine, interpolation), Ex4 (arrays)
 
 ---
 
 **LINE 1:**
 ```csharp
-Console.WriteLine("What do they call you, shithead?");
+Console.WriteLine("=== LOOPS ===");
 ```
-- **WHAT:** Ask for the user's name.
-- **WHY:** Ex1 revision. Name gets used throughout the whole program.
-- **HOW:** Page 21.
+- **WHAT:** Print a header.
+- **WHY:** Labels the program output.
+- **HOW:** Same `Console.WriteLine()` from Ex1. Page 38.
 
 ---
 
 **LINE 2:**
 ```csharp
-string name = Console.ReadLine();
+for (int i = 1; i <= 5; i++)
 ```
-- **WHAT:** Store the name.
-- **WHY:** Ex1 revision — `string` from `ReadLine`.
-- **HOW:** Page 21-22.
+- **WHAT:** Start a loop counting from 1 to 5.
+- **WHY:** `for` = "do this exact number of times." Three parts inside `()`.
+- **HOW:** `int i = 1` — INIT: create counter, start at 1. `i <= 5` — CONDITION: keep going while i is 5 or less. `i++` — INCREMENT: add 1 after each pass. **NO SEMICOLON after the `)`** — that kills the loop (you hit this bug in Ex4). Page 40.
 
 ---
 
-**LINE 3:**
+**LINES 3-5:**
 ```csharp
-Console.WriteLine($"Alright {name}, how many reps can you do?");
-```
-- **WHAT:** Ask for a number. Uses `$""` with their name.
-- **WHY:** Ex1 interpolation revision + setup for Ex3 `int.Parse`.
-- **HOW:** Page 22-23.
-
----
-
-**LINE 4:**
-```csharp
-int reps = int.Parse(Console.ReadLine());
-```
-- **WHAT:** Read input, convert text to number.
-- **WHY:** Ex3 revision — can't do maths on text.
-- **HOW:** Page 35.
-
----
-
-**LINES 5-9 — for loop (Part A):**
-```csharp
-Console.WriteLine($"\n{name}'s rep count:");
-for (int i = 1; i <= reps; i++)
 {
-    Console.WriteLine($"Rep {i} of {reps} — keep fucking going");
+    Console.WriteLine($"  Count: {i}");
 }
 ```
-- **WHAT:** Counts from 1 to whatever number they entered.
-- **WHY:** Ex4 revision BUT now the end point is a VARIABLE, not hardcoded. The loop adapts to user input. Dynamic.
-- **HOW:** `i = 1` start. `i <= reps` — up to AND including their number. `i++` adds 1. Page 25.
+- **WHAT:** Print the current number each cycle.
+- **WHY:** Shows `i` changing — proves the loop works.
+- **HOW:** `$""` interpolation (Ex1). `{i}` gets replaced with 1, then 2, then 3, 4, 5.
 
 ---
 
-**LINES 10-16 — parallel arrays + for loop (Ex4 revision):**
+**LINE 6:**
 ```csharp
-string[] insults = { "Weak", "Pathetic", "Embarrassing", "Soft", "Coward" };
-int[] severity = { 2, 4, 6, 8, 10 };
+string[] goals = { "Pass TAFE", "Get Job", "Escape" };
+```
+- **WHAT:** Create a string array with 3 items.
+- **WHY:** `foreach` needs a collection to walk through. Arrays from Ex4.
+- **HOW:** `string[]` = array of strings. `{ }` fills it at creation. Page 39.
 
-Console.WriteLine("\nPerformance review:");
-for (int i = 0; i < insults.Length; i++)
+---
+
+**LINE 7:**
+```csharp
+foreach (string goal in goals)
+```
+- **WHAT:** Walk through every item in `goals`, one at a time.
+- **WHY:** `foreach` = "for each thing in this collection, do something." No counter needed. No `.Length`. It just goes through everything automatically.
+- **HOW:** `string goal` = temp variable holding the current item. `in goals` = the array to iterate. **NO SEMICOLON after `)`**. Page 41.
+
+---
+
+**LINES 8-10:**
+```csharp
 {
-    Console.WriteLine($"- {insults[i]} (severity: {severity[i]}/10)");
+    Console.WriteLine($"  > {goal}");
 }
 ```
-- **WHAT:** Two parallel arrays printed with a `for` loop.
-- **WHY:** Ex4 pure revision. Keeping arrays and parallel indexing warm.
-- **HOW:** `insults[i]` and `severity[i]` — same index, same item. Page 24-25.
+- **WHAT:** Print the current goal with an arrow indent.
+- **WHY:** `goal` changes each pass — first "Pass TAFE", then "Get Job", then "Escape".
+- **HOW:** `{goal}` is the loop variable from line 7, NOT `goals[i]`. No indexing needed — that's the whole point of `foreach`.
 
 ---
 
-**LINES 17-21 — foreach loop (NEW):**
+**LINE 11:**
 ```csharp
-Console.WriteLine($"\n{name}, here's what they think of you:");
-foreach (string insult in insults)
+int count = 3;
+```
+- **WHAT:** Create an int variable set to 3.
+- **WHY:** `while` loops need their condition variable declared BEFORE the loop starts. If you declare it inside, it resets every cycle and never stops.
+- **HOW:** Same `int` from Ex2. Lives OUTSIDE the loop's `{ }` so it persists. Page 40.
+
+---
+
+**LINE 12:**
+```csharp
+while (count > 0)
+```
+- **WHAT:** Keep looping as long as `count` is greater than 0.
+- **WHY:** `while` = "keep doing this until the condition is false." Unlike `for`, there's no built-in counter — YOU manage it manually.
+- **HOW:** `count > 0` checked BEFORE each cycle. When count hits 0, loop stops. **NO SEMICOLON after `)`**. Page 41: "Careful: infinite loop if condition never becomes false."
+
+---
+
+**LINES 13-16:**
+```csharp
 {
-    Console.WriteLine($"- {insult}");
+    Console.WriteLine($"  {count}...");
+    count--;
 }
 ```
-- **WHAT:** Loops through the array without a counter.
-- **WHY:** NEW CONCEPT. `foreach` is simpler than `for` when you don't need the index number. You just want each item, one at a time. No `i`, no `.Length`, no `[i]`.
-- **HOW:** `foreach (string insult in insults)` — read it like English: "for each string, which I'll call `insult`, in the `insults` array." The word `insult` is a temporary name you pick — it holds the current item each time through. Page 25-26.
+- **WHAT:** Print countdown, subtract 1 from count.
+- **WHY:** `count--` is the most important line. Without it, count stays at 3 forever. Condition always true. Infinite loop. Program hangs. Ctrl+C to kill. #1 while loop mistake.
+- **HOW:** `--` = subtract 1. Same as `count = count - 1`. Opposite of `++` from `for`. Page 39.
 
 ---
 
-**LINES 22-29 — while loop (NEW):**
+**LINE 17:**
 ```csharp
-Console.WriteLine($"\n{name}, say something. Type 'quit' when you've had enough:");
-string input = Console.ReadLine();
-while (input != "quit")
-{
-    Console.WriteLine($"'{input}'? That's the best you've got? Try again:");
-    input = Console.ReadLine();
-}
-Console.WriteLine($"Good. Fuck off then, {name}. You did {reps} reps and talked shit {insults.Length} times.");
+Console.WriteLine("Done.");
 ```
-- **WHAT:** Keeps asking for input until the user types "quit". Final line uses variables from the ENTIRE program.
-- **WHY:** NEW CONCEPT. `while` loops run when you don't know how many iterations. Could be 1, could be 100.
-- **HOW:** `while (input != "quit")` — "while input is NOT equal to quit, keep going." `!=` means not equal — Page 24. You read input BEFORE the loop (line 23) and AGAIN INSIDE the loop (line 26). Without that second `ReadLine` inside, the loop runs forever with the same value. Infinite loop. Bad. Page 26.
-- The final `WriteLine` pulls `name` (line 2), `reps` (line 4), and `insults.Length` (line 10) — Ex1, Ex3, Ex4 all in one line.
+- **WHAT:** Final message after all three loops finish.
+- **WHY:** Proves the program exited all loops and continued.
 
 ---
 
-**LINE 30:**
+**LINE 18:**
 ```csharp
 Console.ReadLine();
 ```
+- **WHAT:** Hold the window open.
+- **WHY:** Without it, window closes before you read. Goes LAST — after "Done.", not before.
+
+---
+
+### COMPLETED CODE (as written in session):
+```csharp
+Console.WriteLine("=== LOOPS ===");
+for (int i = 1; i <= 5; i++)
+{
+    Console.WriteLine($" Count: {i}");
+}
+string[] goals = { "Pass TAFE", "Get Job", "Escape" };
+foreach (string goal in goals)
+{
+    Console.WriteLine($"  > {goal}");
+}
+int count = 3;
+while (count > 0)
+{
+    Console.WriteLine($"{count}...");
+    count--;
+}
+Console.WriteLine("Done.");
+Console.ReadLine();
+```
+
+### SESSION LOG:
+- **First attempt:** Wrote a complex program mixing all previous exercise concepts. Got lost in the complexity. Scrapped it.
+- **Second attempt:** Stripped back to pure loops — 18 lines, three loop types, no extra input. Clean on second submission.
+- **Bug caught:** `Console.ReadLine()` was before `Console.WriteLine("Done.")` — flipped order so "Done." prints before the window holds.
+
+---
+
+**THE THREE LOOP TYPES — WHEN TO USE WHAT (Page 40-41):**
+| Loop | Use When | You Control | Workbook Says |
+|------|----------|-------------|---------------|
+| `for` | You know EXACTLY how many times | Counter built into `()` | "Loop with counter" |
+| `foreach` | You want EVERY item in a collection | Nothing — it handles it | "No counter – just gives you each item" |
+| `while` | You DON'T know how many times | The counter MANUALLY with `++` or `--` | "Loop while true. Careful: infinite loop" |
 
 ---
 
 **CUMULATIVE CHECK:**
 | Concept | From | Page |
 |---------|------|------|
-| `Console.ReadLine()` into string | Ex1 | 21 |
-| `$""` interpolation | Ex1 | 22-23 |
-| `string`, `int` types | Ex2 | 22 |
-| `int.Parse(Console.ReadLine())` | Ex3 | 35 |
-| `string[]`, `int[]` parallel arrays | Ex4 | 24-25 |
-| `for` loop with `.Length` | Ex4 | 25 |
-| `foreach` loop | **NEW** | 25-26 |
-| `while` loop with `!=` | **NEW** | 26 |
+| `Console.WriteLine()` | Ex1 | 38 |
+| `$""` interpolation | Ex1 | 38 |
+| `string[]` arrays | Ex4 | 39 |
+| `for` loop | Ex4 | 40 |
+| `foreach` loop | **NEW** | 41 |
+| `while` loop | **NEW** | 41 |
+| `--` decrement | **NEW** | 39 |
 
-**TOTAL: ~30 lines. Skills unlocked: foreach, while, != operator. All previous skills reinforced.**
+**TOTAL: 18 lines. Skills unlocked: foreach, while, decrement. ✅ COMPLETE.**
 
 ---
 ---
@@ -1400,7 +1442,7 @@ Console.ReadLine();
 | 2 | Variables & Types | ✅ DONE | string, int, double, bool, const |
 | 3 | Operators | ✅ DONE | Arithmetic, int.Parse, Math class, casting |
 | 4 | Arrays | ✅ DONE | string[], int[], [index], .Length, parallel, for |
-| 5 | Loops | ⬜ IN PROGRESS | foreach, while, != |
+| 5 | Loops | ✅ DONE | for, foreach, while, -- decrement |
 | 6 | File I/O | ⬜ | ReadAllLines, WriteAllLines, @"" |
 | 7 | Try-Catch | ⬜ | try/catch, FormatException, scope |
 | 8 | String Formatting | ⬜ | :C, :F2, padding, alignment |
