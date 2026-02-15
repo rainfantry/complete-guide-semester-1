@@ -606,127 +606,148 @@ Console.ReadLine();
 ---
 ---
 
-## EXERCISE 6 — FILE I/O (CUMULATIVE)
-**Workbook:** Part 1B Section 6 | **Pages 26-27**
-**Concepts:** `File.WriteAllLines()`, `File.ReadAllLines()`, `@""` literal paths
-**Cumulative from:** Ex1-5 (all previous)
+## EXERCISE 6 — FILE I/O
+**Workbook:** Table 12 | **Pages 42-43**
+**Concepts:** `File.WriteAllLines()`, `File.ReadAllLines()`, `@""` verbatim strings
+**Cumulative from:** Ex1 (interpolation), Ex4 (arrays, for loop), Ex5 (foreach)
 
 ---
 
 **LINE 1:**
 ```csharp
-Console.WriteLine("What's your callsign?");
+string[] goals = { "Pass TAFE", "Get Job", "Escape", "Legion" };
 ```
-- **WHAT:** Ask for the user's name.
-- **WHY:** Ex1 revision. Name used in file path and output.
-- **HOW:** Page 21.
+- **WHAT:** Create a string array with 4 items.
+- **WHY:** This array is what you're going to save to a file. Arrays from Ex4.
+- **HOW:** `string[]` = array of strings. `{ }` fills it. Page 39.
 
 ---
 
 **LINE 2:**
 ```csharp
-string callsign = Console.ReadLine();
+string path = @"C:\Users\gwu07\Desktop\PROG\goals.txt";
 ```
+- **WHAT:** Store a file path in a string with `@` prefix.
+- **WHY:** Backslashes in C# are escape characters. `\U` would be read as a special code and crash. `@` tells C# "treat every backslash as a literal backslash."
+- **HOW:** `@` goes right before the opening `"`. `@""` = verbatim string literal. Without `@`, you'd need double backslashes: `"C:\\Users\\..."`. Page 41.
 
 ---
 
 **LINE 3:**
 ```csharp
-string[] missions = { "Pass TAFE", "Get a job", "Get the fuck out", "Legion" };
+File.WriteAllLines(path, goals);
 ```
-- **WHAT:** Declare an array of strings.
-- **WHY:** Ex4 revision — this array will be written to a file.
-- **HOW:** Page 24.
+- **WHAT:** Write the entire `goals` array to a text file — one item per line.
+- **WHY:** This is how you save data. Without files, everything dies when the program closes.
+- **HOW:** `File` is a class (toolbox). `.WriteAllLines()` is the method. Two arguments: path (where), array (what). If file doesn't exist, creates it. If it does, overwrites it. Page 42.
 
 ---
 
 **LINE 4:**
 ```csharp
-string path = @"C:\Users\gwu07\Desktop\PROG\missions.txt";
+Console.WriteLine($"Saved {goals.Length} goals to file");
 ```
-- **WHAT:** Declares the file path as a string with `@` prefix.
-- **WHY:** Backslashes in C# are escape characters. `\U` and `\P` would be interpreted as special codes. `@` tells C# to treat backslashes as literal characters.
-- **HOW:** `@""` = verbatim string literal. The `@` goes OUTSIDE the quotes, right before them. Page 16, 23.
+- **WHAT:** Print confirmation with the count.
+- **WHY:** Feedback. Don't just do shit silently.
+- **HOW:** `$""` interpolation (Ex1). `{goals.Length}` from Ex4. Page 38-39.
 
 ---
 
 **LINE 5:**
 ```csharp
-File.WriteAllLines(path, missions);
+string[] loaded = File.ReadAllLines(path);
 ```
-- **WHAT:** Writes the entire array to a text file, one item per line.
-- **WHY:** This is how you save data. `WriteAllLines` takes a path and a `string[]` array and dumps each item as a line in the file. If the file doesn't exist, it creates it. If it does exist, it overwrites it.
-- **HOW:** `File` is a toolbox (class). `.WriteAllLines()` reaches inside and grabs the method. Two arguments: the path, and the array. Page 26-27.
+- **WHAT:** Read the file back into a NEW array called `loaded`.
+- **WHY:** Proves the file was written. Each line becomes one array item.
+- **HOW:** `File.ReadAllLines(path)` reads every line. Returns a `string[]`. Page 42.
 
 ---
 
 **LINE 6:**
 ```csharp
-Console.WriteLine($"Missions written to {path}");
+Console.WriteLine("\n---Goals From File---");
 ```
-- **WHAT:** Confirms the write.
-- **WHY:** User feedback. Don't just do shit silently.
-- **HOW:** Ex1 interpolation. Page 22.
+- **WHAT:** Section header. `\n` blank line before it.
 
 ---
 
-**LINES 7-12 — Read it back:**
+**LINES 7-10 — for loop:**
 ```csharp
-Console.WriteLine($"\n{callsign}'s mission list:");
-string[] loaded = File.ReadAllLines(path);
 for (int i = 0; i < loaded.Length; i++)
 {
-    Console.WriteLine($"{i + 1}. {loaded[i]}");
+    Console.WriteLine($" {i + 1}. {loaded[i]}");
 }
 ```
-- **WHAT:** Reads the file back into a new array and prints each line with a number.
-- **WHY:** Proves the file was actually written AND that you can read it back. `File.ReadAllLines()` returns a `string[]` — same type you wrote.
-- **HOW:** `File.ReadAllLines(path)` reads every line of the file into a new array. Then the `for` loop (Ex4 revision) prints them. Page 26-27.
+- **WHAT:** Loop through loaded array with index.
+- **WHY:** Ex4 revision. Using `loaded` not `goals` — proves you're reading from the FILE, not the original array.
+- **HOW:** `i + 1` for display (humans count from 1). `loaded[i]` for value. Page 40.
 
 ---
 
-**LINES 13-17 — foreach (Ex5 revision):**
+**LINES 11-14 — foreach loop:**
 ```csharp
-Console.WriteLine($"\nSame list, foreach style:");
-foreach (string mission in loaded)
+foreach (string goal in loaded)
 {
-    Console.WriteLine($"- {mission}");
+    Console.WriteLine($"  > {goal}");
 }
 ```
-- **WHAT:** Same data, printed with `foreach` instead of `for`.
-- **WHY:** Ex5 revision — keeping `foreach` warm.
-- **HOW:** Page 25-26.
+- **WHAT:** Walk through loaded array without index.
+- **WHY:** Ex5 revision — keeping `foreach` warm. Same data, different loop style.
+- **HOW:** `goal` = temp variable (singular). `loaded` = the array (what you're iterating). Page 41.
 
 ---
 
-**LINE 18:**
+**LINE 15:**
 ```csharp
-Console.WriteLine($"\nTotal missions: {loaded.Length}. Get moving, {callsign}.");
+Console.WriteLine("Done");
 ```
-- **WHAT:** Uses `.Length` and the callsign variable.
-- **WHY:** Ex4 revision (`.Length`) and Ex1 revision (name variable in output).
 
----
-
-**LINE 19:**
+**LINE 16:**
 ```csharp
 Console.ReadLine();
 ```
 
 ---
 
+### COMPLETED CODE (as written in session):
+```csharp
+string[] goals = { "Pass TAFE", "Get Job", "Escape", "Legion" };
+string path = @"C:\Users\gwu07\Desktop\PROG\goals.txt";
+File.WriteAllLines( path, goals);
+Console.WriteLine($"Saved {goals.Length}  goals to file");
+string[] loaded = File.ReadAllLines(path);
+Console.WriteLine("\n---Goals From File---");
+for (int i = 0; i < loaded.Length; i++)
+{
+    Console.WriteLine($" {i + 1}. {loaded[i]}");
+}
+foreach (string goal in loaded)
+{
+    Console.WriteLine($"  > {goal}");
+}
+Console.WriteLine("Done");
+Console.ReadLine();
+```
+
+### SESSION LOG:
+- **First attempt:** Used `goal` (singular) as both the array name and the `foreach` temp variable — name collision, compiler error. Renamed array to `goals` (plural).
+- **Second attempt:** Had `{goals}` (the array) instead of `{goal}` (the loop variable) inside the foreach — printed `System.String[]` type name instead of items. Fixed to `{goal}`.
+- **Third attempt:** Clean. File created at `C:\Users\gwu07\Desktop\PROG\goals.txt` with 4 lines.
+
+---
+
 **CUMULATIVE CHECK:**
 | Concept | From | Page |
 |---------|------|------|
-| ReadLine, string, interpolation | Ex1 | 21-22 |
-| string[] arrays | Ex4 | 24 |
-| for loop | Ex4 | 25 |
-| foreach loop | Ex5 | 25-26 |
-| `File.WriteAllLines()` | **NEW** | 26-27 |
-| `File.ReadAllLines()` | **NEW** | 26-27 |
-| `@""` verbatim string | **NEW** | 16, 23 |
+| `$""` interpolation | Ex1 | 38 |
+| `string[]` arrays, `.Length` | Ex4 | 39 |
+| `for` loop with index | Ex4 | 40 |
+| `foreach` loop | Ex5 | 41 |
+| `@""` verbatim string | **NEW** | 41 |
+| `File.WriteAllLines()` | **NEW** | 42 |
+| `File.ReadAllLines()` | **NEW** | 42 |
 
-**TOTAL: ~19 lines. Skills unlocked: file read/write, @ paths. All previous skills reinforced.**
+**TOTAL: 16 lines. Skills unlocked: file read/write, @ verbatim paths. ✅ COMPLETE.**
 
 ---
 ---
@@ -1443,7 +1464,7 @@ Console.ReadLine();
 | 3 | Operators | ✅ DONE | Arithmetic, int.Parse, Math class, casting |
 | 4 | Arrays | ✅ DONE | string[], int[], [index], .Length, parallel, for |
 | 5 | Loops | ✅ DONE | for, foreach, while, -- decrement |
-| 6 | File I/O | ⬜ | ReadAllLines, WriteAllLines, @"" |
+| 6 | File I/O | ✅ DONE | ReadAllLines, WriteAllLines, @"" |
 | 7 | Try-Catch | ⬜ | try/catch, FormatException, scope |
 | 8 | String Formatting | ⬜ | :C, :F2, padding, alignment |
 | 9 | If/Else | ⬜ | if/else if/else, ==, !=, &&, \|\| |
