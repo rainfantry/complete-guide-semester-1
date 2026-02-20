@@ -1,0 +1,1 @@
+{\n  \"integration\": {\n    \"enabled\": true,\n    \"api_key\": \"YOUR_API_KEY_HERE\",\n    \"model\": \"claude++\",\n    \"version\": \"latest\"\n  }\n}
